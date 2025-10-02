@@ -5,7 +5,6 @@ if [[ $# -ne 2 ]]; then
 	exit 1
 else
 	echo -e "Parámetro 1 -> $1 \nParámetro 2 -> $2"
-	exit 0
 fi
 
 if [[ -f $1 ]]; then
@@ -17,8 +16,18 @@ fi
 
 if [[ -d $2 || -f $2 ]]; then
 	echo "Error, $2 ya existe como archivo o como directorio"
-else
-	cp $1 $2
+	exit 1
 fi
 
-echo "línea para ver si llego"
+echo "Todas las restricciones se cumplen. Intentando copiar $1 en $2..."
+
+cp "$1" "$2"
+sleep 5
+
+if [[ $? -eq 0 ]]; then
+  	echo "Archivo copiado correctamente"
+else
+	echo "Error al copiar el archivo"
+	exit 1
+fi
+
